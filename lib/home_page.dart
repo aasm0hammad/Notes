@@ -8,6 +8,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  TextEditingController titleController =TextEditingController();
+  TextEditingController descController =TextEditingController();
   DbHelper? mDb;
   List<Map<String,dynamic>> mData =[];
 
@@ -39,11 +41,74 @@ class _HomePageState extends State<HomePage> {
 
       }): Center(child: Text("No Notes?"),),
       floatingActionButton: FloatingActionButton(onPressed: ()async {
-        bool check =await mDb!.addNote(title: "Today", desc: "Done");
-        if(check){
+        titleController.clear();
+        descController.clear();
+       showModalBottomSheet(context: context, builder: (_){
+        return Container(
+          padding: EdgeInsets.all(11),
+          color: Colors.white,
+          width: double.infinity,
+          height: 400,
+         // width: double.infinity,
+          child: Column(
+            children: [
+              Text("Add Note",style: TextStyle(fontSize: 21,fontWeight: FontWeight.bold),),
+              TextField(
+                controller: titleController,
+                decoration: InputDecoration(
+                  hintText: "Enter Title",
+                  label: Text("Title"),
+                  enabledBorder: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(
+                height: 11,
+              ),
+              TextField(
+                controller: descController,
+                decoration: InputDecoration(
+                  label: Text("Desc"),
+                  hintText: "Enter Desc",
+                  enabledBorder: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(),
+
+                ),
+              ),
+              SizedBox(
+                height: 11,
+              ),
+              Row(
+
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton(onPressed: ()async{
+                  bool check=await mDb!.addNote(title: titleController.text, desc: descController.text);
+                  Navigator.pop(context);
+
+                  if(check){
+                    getAllNotes();
+                  }
+
+                  }, child: Text("ADD")),
+                  SizedBox(
+                    width: 11,
+                  ),
+                  ElevatedButton(onPressed: (){
+                    Navigator.pop(context);
+
+                  }, child: Text("Cancel")),
+                ],
+              )
+            ],
+          ),
+        );
+      });
+
+       /* if(check){
           print("note add");
           getAllNotes();
-        }
+        }*/
 
       },child: Icon(Icons.add),),
     );
