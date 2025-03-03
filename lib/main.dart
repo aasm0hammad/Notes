@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/db_helper.dart';
+import 'package:notes_app/notes_provider.dart';
+import 'package:provider/provider.dart';
 
 import 'home_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(create: (context)=>NotesProvider(dbHelper: DbHelper.getInstance()),
+  child: MyApp(),));
 }
 
 class MyApp extends StatelessWidget {
