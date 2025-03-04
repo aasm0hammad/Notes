@@ -12,7 +12,7 @@ class DetailsNote extends StatefulWidget {
   String desc='';
   String createdAt='';
   int? id=-1;
-  DetailsNote({this.title='', this.desc='', this.createdAt='', this.id=-1});
+  DetailsNote({ this.id=-1});
 
   @override
   State<DetailsNote> createState() => _DetailsNoteState();
@@ -27,7 +27,7 @@ class _DetailsNoteState extends State<DetailsNote> {
      var mData=  context.watch<NotesProvider>().getNoteById(widget.id!);
 
 
-     var eachDate=DateTime.fromMicrosecondsSinceEpoch(int.parse(widget.createdAt));
+     var eachDate=DateTime.fromMicrosecondsSinceEpoch(int.parse(mData.nCreatedAT));
      DateFormat db=DateFormat.yMMMEd();
 
      //mData.length

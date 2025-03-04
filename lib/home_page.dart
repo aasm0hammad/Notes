@@ -62,7 +62,6 @@ var randomColor =Colors.primaries[Random().nextInt(Colors.primaries.length-1)];
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailsNote(
                         id: provider.getAllNotes()[index].nID,
 
-
                       )));
                     },
                     onLongPress: (){
