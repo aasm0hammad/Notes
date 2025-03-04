@@ -8,8 +8,10 @@ import 'package:provider/provider.dart';
 import 'home_page.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(create: (context)=>NotesProvider(dbHelper: DbHelper.getInstance()),
-  child: MyApp(),));
+  runApp(ChangeNotifierProvider(
+    create: (context) => NotesProvider(dbHelper: DbHelper.getInstance()),
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -21,8 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home:  HomePage(),
+      home: HomePage(),
     );
   }
 }
-

@@ -16,71 +16,77 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  TextEditingController titleController =TextEditingController();
-  TextEditingController descController =TextEditingController();
-    DateFormat df =DateFormat.yMMMEd();
-var randomColor =Colors.primaries[Random().nextInt(Colors.primaries.length-1)];
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descController = TextEditingController();
+  DateFormat df = DateFormat.yMMMEd();
+  var randomColor =
+      Colors.primaries[Random().nextInt(Colors.primaries.length - 1)];
+
   @override
   void initState() {
     super.initState();
     context.read<NotesProvider>().getInitialNotes();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(backgroundColor: Colors.black,
-        title: Text("Notes App", style: TextStyle(color: Colors.white),),),
-      body:
-      Padding(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Text(
+          "Notes App",
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+      body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<NotesProvider>(builder: (_,provider,__){
-
-           var mData=provider.getAllNotes();
+        child: Consumer<NotesProvider>(builder: (_, provider, __) {
+          var mData = provider.getAllNotes();
 
           return GridView.builder(
-
-
               itemCount: provider.getAllNotes().length,
-
-
-
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-
               ),
-              itemBuilder: (_,index){
-                var eachdate= DateTime.fromMicrosecondsSinceEpoch(int.parse(mData[index].nCreatedAT));
+              itemBuilder: (_, index) {
+                var eachdate = DateTime.fromMicrosecondsSinceEpoch(
+                    int.parse(mData[index].nCreatedAT));
 
-                 return Padding(
+                return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailsNote(
-                        id: provider.getAllNotes()[index].nID,
-
-                      )));
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DetailsNote(
+                                    id: provider.getAllNotes()[index].nID,
+                                  )));
                     },
-                    onLongPress: (){
-                      showDialog(context: context, builder: (context){
-                        return AlertDialog.adaptive(
-                          title: Text("Delete Note"),
-                          content: Text("Are you sure you want to delete this note?"),
-                          actions: [
-                            TextButton(onPressed: (){
-                              Navigator.pop(context);
-                            }, child: Text("Cancel")),
-                            TextButton(onPressed: (){
-                              provider.delete(mData[index].nID!);
-                              Navigator.pop(context);
-                            }, child: Text("Delete"))
-                          ],
-
-                        );
-                      });
+                    onLongPress: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog.adaptive(
+                              title: Text("Delete Note"),
+                              content: Text(
+                                  "Are you sure you want to delete this note?"),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("Cancel")),
+                                TextButton(
+                                    onPressed: () {
+                                      provider.delete(mData[index].nID!);
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("Delete"))
+                              ],
+                            );
+                          });
                       //provider.delete(mData[index].nID!);
                       /*showModalBottomSheet(context: context, builder: (_){
                         titleController.text= mData[index].nTitle;
@@ -119,12 +125,12 @@ var randomColor =Colors.primaries[Random().nextInt(Colors.primaries.length-1)];
                                        nCreatedAT: mData[index].nCreatedAT,
                                    ));
 
-                                *//*bool check=await mDb!.updateNote(NoteModel(
+                                */ /*bool check=await mDb!.updateNote(NoteModel(
                                     nTitle: titleController.text,
                                     nDesc: descController.text,
                                     nCreatedAT: mData[index].nCreatedAT,
                                     nID:mData[index].nID
-                                ));*//*
+                                ));*/ /*
 
 
                                 Navigator.pop(context);
@@ -141,21 +147,26 @@ var randomColor =Colors.primaries[Random().nextInt(Colors.primaries.length-1)];
                         // padding: EdgeInsets.all(1),
 
                         decoration: BoxDecoration(
-                          color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
+                          color: Colors.primaries[
+                              Random().nextInt(Colors.primaries.length)],
                           borderRadius: BorderRadius.circular(11),
                         ),
-
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-
-                              Expanded(child: Text(mData[index].nTitle,
-                                maxLines:3,
+                              Expanded(
+                                  child: Text(
+                                mData[index].nTitle,
+                                maxLines: 3,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold,),)),
-                             // Text(mData[index].nDesc,style: TextStyle(fontSize: 21),),
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )),
+                              // Text(mData[index].nDesc,style: TextStyle(fontSize: 21),),
 
                               Text(df.format(eachdate)),
                             ],
@@ -163,8 +174,6 @@ var randomColor =Colors.primaries[Random().nextInt(Colors.primaries.length-1)];
                         )),
                   ),
                 );
-
-
               });
         }),
       ),
@@ -248,13 +257,13 @@ var randomColor =Colors.primaries[Random().nextInt(Colors.primaries.length-1)];
 
       }): Center(child: Text("No Notes?"),),
       */
-      floatingActionButton: FloatingActionButton(onPressed: ()async {
-       Navigator.push(context, MaterialPageRoute(builder: (context)=> AddNote()));
-
-
-
-
-      },child: Icon(Icons.add),),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => AddNote()));
+        },
+        child: Icon(Icons.add),
+      ),
     );
   }
 }
