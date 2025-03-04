@@ -12,6 +12,10 @@ class NotesProvider extends ChangeNotifier {
 
   List<NoteModel> getAllNotes()=>_mNotes;
 
+  NoteModel getNoteById(int id){
+    return _mNotes.firstWhere((test)=> test.nID==id);
+  }
+
   addNote( NoteModel newnote) async{
  bool check=await dbHelper.addNote(newNote: newnote);
 
@@ -45,6 +49,7 @@ class NotesProvider extends ChangeNotifier {
 
 
   }
+
 
  getInitialNotes()async{
    _mNotes= await dbHelper.fetchAllNotes();

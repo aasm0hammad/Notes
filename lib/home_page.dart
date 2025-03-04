@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:notes_app/add_note.dart';
 import 'package:notes_app/db_helper.dart';
+import 'package:notes_app/details_note.dart';
 import 'package:notes_app/note_model.dart';
 import 'package:notes_app/notes_provider.dart';
 import 'package:provider/provider.dart';
@@ -17,8 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TextEditingController titleController =TextEditingController();
   TextEditingController descController =TextEditingController();
-
-  DateFormat df =DateFormat.yMMMEd();
+    DateFormat df =DateFormat.yMMMEd();
 var randomColor =Colors.primaries[Random().nextInt(Colors.primaries.length-1)];
   @override
   void initState() {
@@ -39,7 +39,7 @@ var randomColor =Colors.primaries[Random().nextInt(Colors.primaries.length-1)];
         padding: const EdgeInsets.all(8.0),
         child: Consumer<NotesProvider>(builder: (_,provider,__){
 
-          var mData=provider.getAllNotes();
+           var mData=provider.getAllNotes();
 
           return GridView.builder(
 
@@ -54,21 +54,35 @@ var randomColor =Colors.primaries[Random().nextInt(Colors.primaries.length-1)];
               ),
               itemBuilder: (_,index){
                 var eachdate= DateTime.fromMicrosecondsSinceEpoch(int.parse(mData[index].nCreatedAT));
+
                  return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
-                    onLongPress: (){
-                      provider.delete(provider.getAllNotes()[index].nID!);
-                    },
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>AddNote(
-                        isUpdate: true,
-                        index: provider.getAllNotes()[index].nID!,
-                        title: provider.getAllNotes()[index].nTitle,
-                        desc: provider.getAllNotes()[index].nDesc,
-                        createdAt: provider.getAllNotes()[index].nCreatedAT,
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailsNote(
+                        id: provider.getAllNotes()[index].nID,
 
-                       )));
+
+                      )));
+                    },
+                    onLongPress: (){
+                      showDialog(context: context, builder: (context){
+                        return AlertDialog.adaptive(
+                          title: Text("Delete Note"),
+                          content: Text("Are you sure you want to delete this note?"),
+                          actions: [
+                            TextButton(onPressed: (){
+                              Navigator.pop(context);
+                            }, child: Text("Cancel")),
+                            TextButton(onPressed: (){
+                              provider.delete(mData[index].nID!);
+                              Navigator.pop(context);
+                            }, child: Text("Delete"))
+                          ],
+
+                        );
+                      });
+                      //provider.delete(mData[index].nID!);
                       /*showModalBottomSheet(context: context, builder: (_){
                         titleController.text= mData[index].nTitle;
                         descController.clear();
@@ -142,7 +156,7 @@ var randomColor =Colors.primaries[Random().nextInt(Colors.primaries.length-1)];
                                 maxLines:3,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold,),)),
-                              Text(mData[index].nDesc,style: TextStyle(fontSize: 21),),
+                             // Text(mData[index].nDesc,style: TextStyle(fontSize: 21),),
 
                               Text(df.format(eachdate)),
                             ],

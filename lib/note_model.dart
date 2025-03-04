@@ -16,6 +16,7 @@ class NoteModel {
   Map<String,dynamic>  toMap(){
 
     return {
+
       DbHelper.COLUMN_NOTE_TITLE:nTitle,
       DbHelper.COLUMN_NOTE_DESC: nDesc,
       DbHelper.COLUMN_NOTE_CREATED_AT: nCreatedAT,

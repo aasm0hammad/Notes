@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/add_note.dart';
 import 'package:notes_app/db_helper.dart';
+import 'package:notes_app/details_note.dart';
 import 'package:notes_app/notes_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       home:  HomePage(),
     );
